@@ -56,18 +56,6 @@ async function main() {
   await mongoose.connect(dbUrl);
 }
 
-app.set("view engine", "ejs");
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-async function main() {
-  await mongoose.connect(dbUrl);
-}
 
 app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
@@ -101,9 +89,7 @@ const sessionOptions = {
     httpOnly: true,
   }
 };
-//app.get("/", (req, res) => {
-//  res.send("Hi, I am root");
-//});
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -125,16 +111,7 @@ app.use((req, res, next)=>{
   next();
 });
 
-/*app.get("/demoUser", async(req, res)=>{
-  let fakeUser = new User({
-    email: "student@gmail.com",
-    username: "delta-student"
-  })
 
- let registeredUser = await User.register(fakeUser, "helloworld");
- res.send(registeredUser);
-})
-*/
 
 app.get("/check", (req, res) => {
   res.send(req.user);
@@ -144,19 +121,6 @@ app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", UserRouter)
 
 
-/*app.get("/testListing", async (req, res) => {
-   let sampleListing = new Listing({
-    title: "My New Villa",
-     description: "By the beach", 
-         price: 1200,
-    location: "Calangute, Goa",
-   country: "India",
-   });
-
-  await sampleListing.save();
-  console.log("sample was saved");
-   res.send("successful testing");
- });*/
  app.all("*", (req, res, next)=>{
   next(new ExpressError(404, "page not found"));
  });
@@ -171,7 +135,8 @@ app.use((err, req, res, next) => {
   );
 });
 
-app.listen(8080, () => {
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
   console.log("server is listening to port 8080");
 });
 
