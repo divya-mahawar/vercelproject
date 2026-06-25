@@ -43,19 +43,6 @@ async function main() {
   await mongoose.connect(dbUrl);
 }
 
-app.set("view engine", "ejs");
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-async function main() {
-  await mongoose.connect(dbUrl);
-}
-
 
 app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
@@ -103,7 +90,6 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next)=>{
-   console.log("USER =", req.user);
 
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -116,6 +102,11 @@ app.use((req, res, next)=>{
 app.get("/check", (req, res) => {
   res.send(req.user);
 });
+
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+}); 
+
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", UserRouter)
@@ -135,8 +126,11 @@ app.use((err, req, res, next) => {
   );
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log("server is listening to port 8080");
-});
 
+
+//const PORT = process.env.PORT || 8080;
+//app.listen(PORT, () => {
+ // console.log("server is listening to port 8080");
+//});
+
+module.exports = app;

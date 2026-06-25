@@ -14,6 +14,19 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 
+apna college sigma 9.0
+
+
+AI Mode
+All
+Images
+Videos
+News
+Shopping
+Forums
+More
+Tools
+
 module.exports.showlistings = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id)
